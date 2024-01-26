@@ -1,0 +1,89 @@
+<h1 class="mt-4">Usuarios</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">{{ usuario.id ? 'Edição' : 'Cadastro'}}</li>
+</ol>
+<div class="container">
+
+    <form #usuarioForm="ngForm" (ngSubmit)="onSubmit()">
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="success == true">
+                    Usuario Salvo/atualizado com Sucesso
+                </div>
+                <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                    {{ erro }}
+                </div> 
+            </div>
+        </div>
+
+        <div class="row" *ngIf="usuario.id">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Id: </label>
+                    <input type="text"  name="id" [ngModel]="usuario.id" class="form-control" disabled="true">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nome: * </label>
+                    <input required #Nome="ngModel" type="text" class="form-control" [(ngModel)]="usuario.nome" name="nome">
+                    <div *ngIf="!Nome.valid && Nome.touched"
+                    class="alert alert-danger" role="alert">
+                        Campo Nome é obrigatório
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Superior: </label>
+                    <select class="form-control">
+                        <option *ngFor="let usuario of filteredUsuarios" value= {{usuario.nome}}>
+                          {{usuario.nome}}
+                        </option>
+                     </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Senha: * </label>
+                    <input type="password" maxlength="50" minlength="8" placeholder="Digite sua senha" required #TEL="ngModel" name="telefone1" 
+                    [(ngModel)]="usuario.senha" class="form-control">
+                </div>
+                <div *ngIf="TEL.invalid && TEL.touched "
+                    class="alert alert-danger" role="alert">
+                        Senha é obrigatória
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Confirmação de senha: * </label>
+                    <input type="password" maxlength="50" minlength="8" placeholder="Digite sua senha" required #TEL="ngModel" name="telefone2" 
+                    [(ngModel)]="usuario.confirmacaoSenha" class="form-control">
+                </div>
+                <div *ngIf="TEL.invalid && TEL.touched "
+                    class="alert alert-danger" role="alert">
+                        Senha é obrigatória
+                </div>
+            </div>
+        </div>     
+
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-success" *ngIf="!usuario.id" [disabled]="!usuarioForm.valid">
+                    <i class="fa fa-save"></i> Salvar
+                </button>
+                <button type="submit" class="btn btn-primary" *ngIf="usuario.id" [disabled]="!usuarioForm.valid">
+                    <i class="fa fa-sync-alt"></i> Atualizar
+                </button>
+                <button type="button" class="btn btn-danger ml-1" (click)="voltarParaListagem()">
+                    <i class="fa fa-arrow-alt-circle-left"></i>  Voltar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
